@@ -9,4 +9,11 @@ def getAll():
     return jsonify(['HELLO', 'WORLD'])
 
 
+@app.route('/classification', methods=['POST'])
+def getPhotoClassification():
+    json = request.get_json()
+    classification = get_photo_classification(json["photo"])
+    return jsonify(classification)
+
+
 app.run(port=5000, host='localhost', debug=True)
