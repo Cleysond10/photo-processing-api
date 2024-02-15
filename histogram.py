@@ -1,17 +1,33 @@
-import os
+import numpy as np
 from matplotlib import pyplot as plt
 import cv2
+import base64
+from io import BytesIO
+
+from utils import base64_to_image
 
 
-def generate_histogram(path):
+def generate_histogram(base64_string):
     """Function to plt the image histogram by opencv."""
-    filename = os.path.basename(path).split('.')[0]
-    image = cv2.imread(path)
+    image = base64_to_image(base64_string)
+
     CHANNEL = [0]
     HIST_SIZE = [256]
     RANGE = [0, 255]
+
     histogram = cv2.calcHist(
-        image, CHANNEL, None, HIST_SIZE, RANGE)
-    plt.subplot(111), plt.plot(histogram)
-    plt.savefig(f'{filename}_hist')
-    plt.clf()
+        np.array(image), CHANNEL, None, HIST_SIZE, RANGE)
+
+    plt.plot(histogram)
+    plt.title('Histogram')
+    plt.xlabel('Pixel Value')
+    plt.ylabel('Frequency')
+    plt.grid(True)
+
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+
+    encoded_histogram = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+    return encoded_histogram
