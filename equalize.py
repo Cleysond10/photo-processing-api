@@ -2,8 +2,16 @@ import os
 import numpy as np
 import cv2
 
+from utils import base64_to_image
 
-def quantil_equalize(path):
+
+def quantil_equalize(base64_string):
+    """Function to equalize image"""
+    image = base64_to_image(base64_string)
+    return image
+
+
+def quantil_equalize_algorithm(path):
     """Function to equalize image in YCrCb with percentil of 0,1."""
     filename = os.path.basename(path).split('.')[0]
 
