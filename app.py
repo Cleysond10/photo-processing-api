@@ -1,10 +1,11 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from classification import get_photo_classification
 from histogram import generate_histogram
 from equalize import quantil_equalize
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/test', methods=['GET'])
 def getAll():
