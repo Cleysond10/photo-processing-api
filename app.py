@@ -7,9 +7,9 @@ from equalize import quantil_equalize
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/test', methods=['GET'])
-def getAll():
-    return jsonify(['HELLO', 'WORLD'])
+@app.route('/', methods=['GET'])
+def welcome():
+    return 'HELLO, WORLD!'
 
 
 @app.route('/classification', methods=['POST'])
